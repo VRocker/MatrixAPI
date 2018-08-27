@@ -26,14 +26,14 @@ namespace libMatrix.Backends
             _userId = userId;
         }
 
-        public MatrixRequestError Get(string path, bool authenticate, out string result)
+        public async Task<Tuple<MatrixRequestError, string>> Get(string path, bool authenticate)
         {
             string apiPath = GetPath(path, authenticate);
-            Task<HttpResponseMessage> task = _client.GetAsync(apiPath);
-            return RequestWrap(task, out result);
+            HttpResponseMessage task = await _client.GetAsync(apiPath);
+            return await RequestWrap(task);
         }
 
-        public MatrixRequestError Post(string path, bool authenticate, string request, out string result)
+        public async Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, string request)
         {
             StringContent content;
             if (!string.IsNullOrEmpty(request))
@@ -42,11 +42,11 @@ namespace libMatrix.Backends
                 content = new StringContent("{}", Encoding.UTF8, "application/json");
 
             string apiPath = GetPath(path, authenticate);
-            Task<HttpResponseMessage> task = _client.PostAsync(apiPath, content);
-            return RequestWrap(task, out result);
+            HttpResponseMessage task = await _client.PostAsync(apiPath, content);
+            return await RequestWrap(task);
         }
 
-        public MatrixRequestError Post(string path, bool authenticate, string request, Dictionary<string, string> headers, out string result)
+        public async Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, string request, Dictionary<string, string> headers)
         {
             StringContent content;
             if (!string.IsNullOrEmpty(request))
@@ -60,11 +60,11 @@ namespace libMatrix.Backends
             }
 
             string apiPath = GetPath(path, authenticate);
-            Task<HttpResponseMessage> task = _client.PostAsync(apiPath, content);
-            return RequestWrap(task, out result);
+            HttpResponseMessage task = await _client.PostAsync(apiPath, content);
+            return await RequestWrap(task);
         }
 
-        public MatrixRequestError Post(string path, bool authenticate, byte[] request, Dictionary<string, string> headers, out string result)
+        public async Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, byte[] request, Dictionary<string, string> headers)
         {
             ByteArrayContent content;
             if (request != null)
@@ -78,18 +78,18 @@ namespace libMatrix.Backends
             }
 
             string apiPath = GetPath(path, authenticate);
-            Task<HttpResponseMessage> task = _client.PostAsync(apiPath, content);
-            return RequestWrap(task, out result);
+            HttpResponseMessage task = await _client.PostAsync(apiPath, content);
+            return await RequestWrap(task);
 
         }
 
-        public MatrixRequestError Put(string path, bool authenticate, string request, out string result)
+        public async Task<Tuple<MatrixRequestError, string>> Put(string path, bool authenticate, string request)
         {
             StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
 
             string apiPath = GetPath(path, authenticate);
-            Task<HttpResponseMessage> task = _client.PutAsync(apiPath, content);
-            return RequestWrap(task, out result);
+            HttpResponseMessage task = await _client.PutAsync(apiPath, content);
+            return await RequestWrap(task);
         }
 
         public void SetAccessToken(string token)
@@ -110,67 +110,44 @@ namespace libMatrix.Backends
             return path;
         }
 
-        private MatrixRequestError RequestWrap(Task<HttpResponseMessage> task, out string result)
+        private async Task<Tuple<MatrixRequestError, string>> RequestWrap(HttpResponseMessage task)
         {
             try
             {
-                HttpStatusCode code = GenericRequest(task, out result);
-                return new MatrixRequestError("", MatrixErrorCode.CL_NONE, code);
+                HttpStatusCode code = task.StatusCode;
+                string result = await GenericRequest(task);
+
+                return new Tuple<MatrixRequestError, string>(
+                    new MatrixRequestError("", MatrixErrorCode.CL_NONE, code),
+                    result);
             }
             catch (MatrixServerError e)
             {
-                result = string.Empty;
-                return new MatrixRequestError(e.Message, e.ErrorCode, HttpStatusCode.OK);
+                return new Tuple<MatrixRequestError, string>(
+                    new MatrixRequestError(e.Message, e.ErrorCode, HttpStatusCode.OK),
+                    "");
             }
         }
 
-        private HttpStatusCode GenericRequest(Task<HttpResponseMessage> task, out string result)
+        private async Task<string> GenericRequest(HttpResponseMessage task)
         {
-            Task<string> stask = null;
-            result = string.Empty;
-            try
+            string result = await task.Content.ReadAsStringAsync();
+            // We should probably catch json exceptions here..
+            if (!task.IsSuccessStatusCode)
             {
-                task.Wait();
-                if (task.Status == TaskStatus.RanToCompletion)
+                // If its not a success, parse the error code from the json
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(result)))
                 {
-                    stask = task.Result.Content.ReadAsStringAsync();
-                    stask.Wait();
-                }
-                else
-                {
-                    return task.Result.StatusCode;
-                }
-            }
-            catch (WebException e)
-            {
-                throw e;
-            }
-            catch (AggregateException e)
-            {
-                throw new MatrixException(e.InnerException.Message, e.InnerException);
-            }
-
-            if (stask.Status == TaskStatus.RanToCompletion)
-            {
-                result = stask.Result;
-
-                // We should probably catch json exceptions here..
-                if (!task.Result.IsSuccessStatusCode)
-                {
-                    // If its not a success, parse the error code from the json
-                    using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(result)))
+                    var ser = new DataContractJsonSerializer(typeof(Responses.Error));
+                    Responses.Error response = (ser.ReadObject(stream) as Responses.Error);
+                    if (!string.IsNullOrEmpty(response.ErrorCode))
                     {
-                        var ser = new DataContractJsonSerializer(typeof(Responses.Error));
-                        Responses.Error response = (ser.ReadObject(stream) as Responses.Error);
-                        if (!string.IsNullOrEmpty(response.ErrorCode))
-                        {
-                            throw new MatrixServerError(response.ErrorCode, response.ErrorMsg);
-                        }
+                        throw new MatrixServerError(response.ErrorCode, response.ErrorMsg);
                     }
                 }
             }
 
-            return task.Result.StatusCode;
+            return result;
         }
     }
 }

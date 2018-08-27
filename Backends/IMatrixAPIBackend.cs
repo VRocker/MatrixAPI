@@ -8,11 +8,11 @@ namespace libMatrix.Backends
 {
     public interface IMatrixAPIBackend
     {
-        MatrixRequestError Get(string path, bool authenticate, out string result);
-        MatrixRequestError Post(string path, bool authenticate, string request, out string result);
-        MatrixRequestError Post(string path, bool authenticate, string request, Dictionary<string, string> headers, out string result);
-        MatrixRequestError Post(string path, bool authenticate, byte[] request, Dictionary<string, string> headers, out string result);
-        MatrixRequestError Put(string path, bool authenticate, string request, out string result);
+        Task<Tuple<MatrixRequestError, string>> Get(string path, bool authenticate);
+        Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, string request);
+        Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, string request, Dictionary<string, string> headers);
+        Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, byte[] request, Dictionary<string, string> headers);
+        Task<Tuple<MatrixRequestError, string>> Put(string path, bool authenticate, string request);
 
         void SetAccessToken(string token);
     }
