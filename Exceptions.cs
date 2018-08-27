@@ -1,16 +1,18 @@
 ﻿using libMatrix.Backends;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace libMatrix
 {
     public class MatrixException : Exception
     {
-        public MatrixException(string message) : base(message) { }
-        public MatrixException(string message, Exception innerException) : base(message, innerException) { }
+        public MatrixException(string message) : base(message)
+        {
+            Debug.WriteLine("Matrix Exception thrown: " + message);
+        }
+        public MatrixException(string message, Exception innerException) : base(message, innerException) {
+            Debug.WriteLine("Matrix Exception thrown: " + message + " - " + innerException);
+        }
     }
 
     public class MatrixServerError : MatrixException

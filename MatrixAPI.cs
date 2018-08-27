@@ -87,6 +87,20 @@ namespace libMatrix
             }
         }
 
+        [MatrixSpec("r0.0.1/client_server.html#post-matrix-client-r0-register")]
+        public async void ClientRegister(Requests.Session.MatrixRegister registration)
+        {
+            var tuple = await _backend.Post("/_matrix/client/r0/register", false, Helpers.JsonHelper.Serialize(registration));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                // Parse registration response
+            }
+            else
+                throw new MatrixException(err.ToString());
+        }
+
         [MatrixSpec("r0.0.1/client_server.html#post-matrix-client-r0-login")]
         public async void ClientLogin(Requests.Session.MatrixLogin login)
         {
@@ -122,6 +136,68 @@ namespace libMatrix
             }
         }
 
+        public async Task<bool> ClientSetDisplayName(string displayName)
+        {
+            Requests.UserData.UserProfileSetDisplayName req = new Requests.UserData.UserProfileSetDisplayName() { DisplayName = displayName };
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/profile/{0}/displayname", Uri.EscapeDataString(UserID)), true, Helpers.JsonHelper.Serialize(req));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ClientSetAvatar(string avatarUrl)
+        {
+            Requests.UserData.UserProfileSetAvatar req = new Requests.UserData.UserProfileSetAvatar() { AvatarUrl = avatarUrl };
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/profile/{0}/displayname", Uri.EscapeDataString(UserID)), true, Helpers.JsonHelper.Serialize(req));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ClientSetPresence(string presence, string statusMessage = null)
+        {
+            Requests.Presence.MatrixSetPresence req = new Requests.Presence.MatrixSetPresence()
+            {
+                Presence = presence
+            };
+
+            if (statusMessage != null)
+            {
+                req.StatusMessage = statusMessage;
+            }
+
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/presence/{0}/status", Uri.EscapeDataString(UserID)), true, Helpers.JsonHelper.Serialize(req));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<string> MediaUpload(string contentType, byte[] data)
+        {
+            var tuple = await _backend.Post("/_matrix/media/r0/upload", true, data, new Dictionary<string, string>() { { "Content-Type", contentType } });
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                // Parse response
+                return ParseMediaUpload(result);
+            }
+
+            return "";
+        }
+
         public async Task<bool> InviteToRoom(string roomId, string userId)
         {
             Requests.Rooms.MatrixRoomInvite invite = new Requests.Rooms.MatrixRoomInvite() { UserID = userId };
@@ -134,6 +210,46 @@ namespace libMatrix
             }
 
             throw new MatrixException(err.ToString());
+        }
+
+        public async Task<bool> JoinRoom(string roomId)
+        {
+            Requests.Rooms.MatrixRoomJoin roomJoin = new Requests.Rooms.MatrixRoomJoin();
+            var tuple = await _backend.Post(string.Format("/_matrix/client/r0/rooms/{0}/join", Uri.EscapeDataString(roomId)), true, Helpers.JsonHelper.Serialize(roomJoin));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> LeaveRoom(string roomId)
+        {
+            var tuple = await _backend.Post(string.Format("/_matrix/client/r0/rooms/{0}/leave", Uri.EscapeDataString(roomId)), true, "");
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async void RoomTypingSend(string roomId, bool typing, int timeout = 0)
+        {
+            Requests.Rooms.MatrixRoomSendTyping req = new Requests.Rooms.MatrixRoomSendTyping() { Typing = typing };
+            if (timeout > 0)
+                req.Timeout = timeout;
+
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/rooms/{0}/typing/{1}", Uri.EscapeDataString(roomId), Uri.EscapeDataString(UserID)), true, Helpers.JsonHelper.Serialize(req));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (!err.IsOk)
+                throw new MatrixException(err.ToString());
         }
     }
 }

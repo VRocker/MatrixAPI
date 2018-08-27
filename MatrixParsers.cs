@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -123,9 +124,22 @@ namespace libMatrix
                 throw new MatrixException("Failed to parse ClientSync - " + e.Message);
             }
         }
+
+        private string ParseMediaUpload(string resp)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(resp)))
+                {
+                    var ser = new DataContractJsonSerializer(typeof(Responses.Media.MediaUploadResponse));
+                    Responses.Media.MediaUploadResponse response = (ser.ReadObject(stream) as Responses.Media.MediaUploadResponse);
+
+                    return response.ContentUri;
+                }
+            }
             catch
             {
-                throw new MatrixException("Failed to parse ParseClientSync");
+                throw new MatrixException("Failed to parse MediaUpload");
             }
         }
     }

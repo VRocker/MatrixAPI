@@ -110,6 +110,11 @@
     <Compile Include="Backends\IMatrixAPIBackend.cs" />
     <Compile Include="Backends\MatrixErrorCode.cs" />
     <Compile Include="Backends\MatrixRequestError.cs" />
+    <Compile Include="Events\Error.cs" />
+    <Compile Include="Events\LogInOut.cs" />
+    <Compile Include="Events\Rooms.cs" />
+    <Compile Include="Events\User.cs" />
+    <Compile Include="Helpers\JsonConverters.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="MatrixAPI.cs" />
     <Compile Include="Exceptions.cs" />
@@ -117,11 +122,20 @@
     <Compile Include="MatrixParsers.cs" />
     <Compile Include="MatrixSyncThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\Presence\MatrixSetPresence.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomInvite.cs" />
+    <Compile Include="Requests\Rooms\MatrixRoomJoin.cs" />
+    <Compile Include="Requests\Rooms\MatrixRoomSendTyping.cs" />
     <Compile Include="Requests\Session\MatrixLogin.cs" />
     <Compile Include="Requests\Session\MatrixLoginPassword.cs" />
+    <Compile Include="Requests\Session\MatrixRegister.cs" />
+    <Compile Include="Requests\UserData\UserProfileSetAvatar.cs" />
+    <Compile Include="Requests\UserData\UserProfileSetDisplayName.cs" />
     <Compile Include="Responses\Error.cs" />
+    <Compile Include="Responses\MatrixEvents.cs" />
+    <Compile Include="Responses\MatrixEventsRoom.cs" />
     <Compile Include="Responses\MatrixSync.cs" />
+    <Compile Include="Responses\Media\MediaUploadResponse.cs" />
     <Compile Include="Responses\Session\LoginResponse.cs" />
     <Compile Include="Responses\UserData\UserProfileResponse.cs" />
     <Compile Include="Responses\Versions.cs" />
@@ -131,10 +145,11 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
-    <Folder Include="Requests\UserData\" />
     <Folder Include="Responses\Rooms\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
