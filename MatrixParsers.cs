@@ -42,6 +42,8 @@ namespace libMatrix
                     this.HomeServer = response.HomeServer;
 
                     this._backend.SetAccessToken(response.AccessToken);
+
+                    _events.FireLoginEvent();
                 }
             }
             catch

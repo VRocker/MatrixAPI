@@ -11,6 +11,7 @@ namespace libMatrix
     {
         public const string VERSION = "r0.0.1";
         IMatrixAPIBackend _backend = null;
+        private Events _events = null;
 
         public string UserID { get; private set; }
         public string DeviceID { get; private set; }
@@ -21,6 +22,7 @@ namespace libMatrix
 
         public bool RunningInitialSync { get; private set; }
         public bool IsConnected { get; private set; }
+        public Events Events { get => _events; set => _events = value; }
 
         public MatrixAPI(string Url, string token = "")
         {
@@ -28,6 +30,7 @@ namespace libMatrix
                 throw new MatrixException("URL is not valid.");
 
             _backend = new HttpBackend(Url);
+            _events = new Events();
 
             _syncToken = token;
             if (string.IsNullOrEmpty(_syncToken))
@@ -97,7 +100,8 @@ namespace libMatrix
             }
             else
             {
-                throw new MatrixException(err.ToString());
+                //throw new MatrixException(err.ToString());
+                Events.FireLoginFailEvent(err.ToString());
             }
         }
 
@@ -109,10 +113,12 @@ namespace libMatrix
             if (err.IsOk)
             {
                 Responses.UserData.UserProfileResponse profileResponse = ParseUserProfile(result);
+
+                Events.FireUserProfileReceivedEvent(userId, profileResponse.AvatarUrl, profileResponse.DisplayName);
             }
             else
             {
-                return null;
+                // Fire an error
             }
         }
 
