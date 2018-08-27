@@ -7,23 +7,34 @@ namespace libMatrix
     {
         private ThreadPoolTimer _pollThread;
 
+        private bool isRunningSync = false;
+
         public void StartSyncThreads()
         {
             TimeSpan period = TimeSpan.FromMilliseconds(250);
 
             _pollThread = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
-                try
+                if (!isRunningSync)
                 {
-                    ClientSync(true);
+                    isRunningSync = true;
+                    try
+                    {
+
+
+                        ClientSync(true);
+
+                    }
+                    catch (Exception e)
+                    {
+
+
+                    }
+
+                    FlushMessageQueue();
+
+                    isRunningSync = false;
                 }
-                catch (Exception e)
-                {
-
-
-                }
-
-                FlushMessageQueue();
             }, period);
         }
 
