@@ -27,6 +27,15 @@ namespace libMatrix.Responses
     }
 
     [DataContract]
+    public class MatrixSyncTimelineEvents : MatrixSyncEvents
+    {
+        [DataMember(Name = "limited")]
+        public bool Limited { get; set; }
+        [DataMember(Name = "prev_batch")]
+        public string PreviousBatch { get; set; }
+    }
+
+    [DataContract]
     public class MatrixSyncRooms
     {
         [DataMember(Name = "invite")]

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace libMatrix.Responses
 {
@@ -19,6 +14,8 @@ namespace libMatrix.Responses
     {
         [DataMember(Name = "state")]
         public MatrixSyncEvents State { get; set; }
+        [DataMember(Name = "timeline")]
+        public MatrixSyncTimelineEvents Timeline { get; set; }
         [DataMember(Name = "account_data")]
         public MatrixSyncEvents AccountData { get; set; }
         [DataMember(Name = "ephemeral")]
