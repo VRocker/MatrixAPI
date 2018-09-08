@@ -13,7 +13,7 @@ namespace libMatrix.Responses
         public long Age { get; set; }
         [DataMember(Name = "sender")]
         public string Sender { get; set; }
-        [DataMember(Name = "type")]
+        [DataMember(Name = "type", IsRequired = true)]
         public string Type { get; set; }
         [DataMember(Name = "event_id")]
         public string EventID { get; set; }
@@ -34,23 +34,5 @@ namespace libMatrix.Responses
         public long Age;
         [DataMember(Name = "transaction_id")]
         public string TransactionID;
-    }
-
-
-    public class MatrixEventsPresence : MatrixEvents
-    {
-        [DataMember(Name = "content")]
-        public MatrixEventPresenceContent Content { get; set; }
-    }
-
-    [DataContract(Name = "content")]
-    public class MatrixEventPresenceContent
-    {
-        [DataMember(Name = "currently_active")]
-        public bool CurrentlyActive { get; set; }
-        [DataMember(Name = "last_active_ago")]
-        public long LastActiveAgo { get; set; }
-        [DataMember(Name = "presence")]
-        public string Presence { get; set; }
     }
 }

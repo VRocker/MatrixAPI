@@ -110,7 +110,7 @@ namespace libMatrix
                     {
                         foreach (var evt in response.Presense.Events)
                         {
-                            var actualEvent = evt as Responses.MatrixEventsPresence;
+                            var actualEvent = evt as Responses.Events.Presence;
                             bool active = actualEvent.Content.CurrentlyActive;
                         }
                     }

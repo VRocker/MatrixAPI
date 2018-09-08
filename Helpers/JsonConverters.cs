@@ -29,7 +29,7 @@ namespace libMatrix.Helpers
                     switch (item["type"].Value<string>())
                     {
                         case "m.presence":
-                            lst.Add(item.ToObject<MatrixEventsPresence>());
+                            lst.Add(item.ToObject<Responses.Events.Presence>());
                             break;
 
                         default:

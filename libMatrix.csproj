@@ -132,6 +132,7 @@
     <Compile Include="Requests\UserData\UserProfileSetAvatar.cs" />
     <Compile Include="Requests\UserData\UserProfileSetDisplayName.cs" />
     <Compile Include="Responses\Error.cs" />
+    <Compile Include="Responses\Events\Presence.cs" />
     <Compile Include="Responses\MatrixEvents.cs" />
     <Compile Include="Responses\MatrixEventsRoom.cs" />
     <Compile Include="Responses\MatrixSync.cs" />
