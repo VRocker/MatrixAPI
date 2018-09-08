@@ -133,6 +133,11 @@
     <Compile Include="Requests\UserData\UserProfileSetDisplayName.cs" />
     <Compile Include="Responses\Error.cs" />
     <Compile Include="Responses\Events\Presence.cs" />
+    <Compile Include="Responses\Events\Room\Create.cs" />
+    <Compile Include="Responses\Events\Room\JoinRules.cs" />
+    <Compile Include="Responses\Events\Room\Member.cs" />
+    <Compile Include="Responses\Events\Room\Message.cs" />
+    <Compile Include="Responses\Events\Typing.cs" />
     <Compile Include="Responses\MatrixEvents.cs" />
     <Compile Include="Responses\MatrixEventsRoom.cs" />
     <Compile Include="Responses\MatrixSync.cs" />
@@ -152,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Responses\Rooms\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Responses\Events\Room\Name.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
