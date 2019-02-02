@@ -198,6 +198,18 @@ namespace libMatrix
             return "";
         }
 
+        public async void JoinedRooms()
+        {
+            var tuple = await _backend.Get("/_matrix/client/r0/joined_rooms", true);
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                // Parse joined rooms
+                ParseJoinedRooms(result);
+            }
+        }
+
         public async Task<bool> InviteToRoom(string roomId, string userId)
         {
             Requests.Rooms.MatrixRoomInvite invite = new Requests.Rooms.MatrixRoomInvite() { UserID = userId };

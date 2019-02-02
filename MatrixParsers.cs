@@ -72,7 +72,7 @@ namespace libMatrix
             }
         }
 
-        private void ParseClientSync(string resp)
+        private async Task ParseClientSync(string resp)
         {
             try
             {
@@ -140,6 +140,24 @@ namespace libMatrix
             catch
             {
                 throw new MatrixException("Failed to parse MediaUpload");
+            }
+        }
+
+        private void ParseJoinedRooms(string resp)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(resp)))
+                {
+                    var ser = new DataContractJsonSerializer(typeof(Responses.JoinedRooms));
+                    Responses.JoinedRooms response = (ser.ReadObject(stream) as Responses.JoinedRooms);
+
+                    var thing = response.Rooms;
+                }
+            }
+            catch
+            {
+                throw new MatrixException("Failed to parse JoinedRooms");
             }
         }
     }
