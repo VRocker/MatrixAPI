@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.System.Threading;
 
 namespace libMatrix
@@ -13,22 +14,19 @@ namespace libMatrix
         {
             TimeSpan period = TimeSpan.FromMilliseconds(250);
 
-            _pollThread = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            _pollThread = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
             {
                 if (!isRunningSync)
                 {
                     isRunningSync = true;
                     try
                     {
-
-
-                        ClientSync(true);
-
+                        await ClientSync(true);
                     }
                     catch (Exception e)
                     {
 
-
+                        Debug.WriteLine("Sync Exception: " + e.Message);
                     }
 
                     FlushMessageQueue();

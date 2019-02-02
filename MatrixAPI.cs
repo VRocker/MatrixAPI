@@ -43,7 +43,7 @@ namespace libMatrix
             //throw new NotImplementedException();
         }
 
-        public async void ClientSync(bool connectionFailureTimeout = false)
+        public async Task ClientSync(bool connectionFailureTimeout = false)
         {
             string url = "/_matrix/client/r0/sync?timeout=" + SyncTimeout;
             if (!string.IsNullOrEmpty(_syncToken))
@@ -54,7 +54,7 @@ namespace libMatrix
             string response = tuple.Item2;
             if (err.IsOk)
             {
-                ParseClientSync(response);
+                await ParseClientSync(response);
             }
             else if (connectionFailureTimeout)
             {
