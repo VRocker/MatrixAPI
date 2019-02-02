@@ -41,6 +41,10 @@ namespace libMatrix.Helpers
                             lst.Add(item.ToObject<Responses.Events.Room.Create>());
                             break;
 
+                        case "m.room.guest_access":
+                            lst.Add(item.ToObject<Responses.Events.Room.GuestAccess>());
+                            break;
+
                         case "m.room.join_rules":
                             lst.Add(item.ToObject<Responses.Events.Room.JoinRules>());
                             break;
