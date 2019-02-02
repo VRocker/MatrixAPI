@@ -57,6 +57,10 @@ namespace libMatrix.Helpers
                             lst.Add(item.ToObject<Responses.Events.Room.Name> ());
                             break;
 
+                        case "m.sticker":
+                            lst.Add(item.ToObject<Responses.Events.Sticker>());
+                            break;
+
                         default:
                             Debug.WriteLine("Unknown event type: " + item["type"]);
                             lst.Add(item.ToObject<MatrixEvents>());

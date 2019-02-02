@@ -137,7 +137,9 @@
     <Compile Include="Responses\Events\Room\JoinRules.cs" />
     <Compile Include="Responses\Events\Room\Member.cs" />
     <Compile Include="Responses\Events\Room\Message.cs" />
+    <Compile Include="Responses\Events\Sticker.cs" />
     <Compile Include="Responses\Events\Typing.cs" />
+    <Compile Include="Responses\JoinedRooms.cs" />
     <Compile Include="Responses\MatrixEvents.cs" />
     <Compile Include="Responses\MatrixEventsRoom.cs" />
     <Compile Include="Responses\MatrixSync.cs" />
