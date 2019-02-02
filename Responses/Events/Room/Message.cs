@@ -32,9 +32,9 @@ namespace libMatrix.Responses.Events.Room
         [DataContract]
         public class InfoClass
         {
-            [DataMember(Name = "h")]
+            [DataMember(Name = "w")]
             public int Width { get; set; }
-            [DataMember(Name = "s")]
+            [DataMember(Name = "h")]
             public int Height { get; set; }
             [DataMember(Name = "size")]
             public int FileSize { get; set; }
