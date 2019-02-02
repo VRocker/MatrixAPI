@@ -16,14 +16,25 @@ namespace libMatrix.Backends
         private string _userId;
         private HttpClient _client;
 
-        public HttpBackend(string apiUrl, string userId = null, HttpClient client = null)
+        public HttpBackend(string apiUrl, string userId = null)
         {
             _baseUrl = apiUrl;
             if (_baseUrl.EndsWith("/"))
                 _baseUrl = _baseUrl.Substring(0, _baseUrl.Length - 1);
 
-            _client = client ?? new HttpClient();
+            _client = new HttpClient();
             _userId = userId;
+        }
+
+        ~HttpBackend()
+        {
+            if (_client != null)
+            {
+                _client.CancelPendingRequests();
+
+                _client.Dispose();
+                _client = null;
+            }
         }
 
         public async Task<Tuple<MatrixRequestError, string>> Get(string path, bool authenticate)
