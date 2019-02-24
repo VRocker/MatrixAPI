@@ -43,11 +43,13 @@ namespace libMatrix
             //throw new NotImplementedException();
         }
 
-        public async Task ClientSync(bool connectionFailureTimeout = false)
+        public async Task ClientSync(bool connectionFailureTimeout = false, bool fullState = false)
         {
             string url = "/_matrix/client/r0/sync?timeout=" + SyncTimeout;
             if (!string.IsNullOrEmpty(_syncToken))
                 url += "&since=" + _syncToken;
+            if (fullState)
+                url += "&full_state=true";
 
             var tuple = await _backend.Get(url, true);
             MatrixRequestError err = tuple.Item1;

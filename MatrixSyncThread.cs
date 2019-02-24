@@ -10,6 +10,8 @@ namespace libMatrix
 
         private bool isRunningSync = false;
 
+        public bool shouldFullSync = false;
+
         public void StartSyncThreads()
         {
             TimeSpan period = TimeSpan.FromMilliseconds(250);
@@ -21,7 +23,13 @@ namespace libMatrix
                     isRunningSync = true;
                     try
                     {
-                        await ClientSync(true);
+                        if (shouldFullSync)
+                        {
+                            await ClientSync(true, true);
+                            shouldFullSync = false;
+                        }
+                        else
+                            await ClientSync(true);
                     }
                     catch (Exception e)
                     {
