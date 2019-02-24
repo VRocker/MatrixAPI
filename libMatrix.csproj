@@ -133,6 +133,7 @@
     <Compile Include="Requests\UserData\UserProfileSetDisplayName.cs" />
     <Compile Include="Responses\Error.cs" />
     <Compile Include="Responses\Events\Presence.cs" />
+    <Compile Include="Responses\Events\Room\CanonicalAlias.cs" />
     <Compile Include="Responses\Events\Room\Create.cs" />
     <Compile Include="Responses\Events\Room\JoinRules.cs" />
     <Compile Include="Responses\Events\Room\Member.cs" />
