@@ -200,6 +200,20 @@ namespace libMatrix
             return "";
         }
 
+        public string GetMediaDownloadUri(string contentUrl)
+        {
+            if (!contentUrl.StartsWith("mxc://"))
+                return string.Empty;
+
+            var newUrl = contentUrl.Remove(0, 6);
+            var contentUrlSplit = newUrl.Split('/');
+            if (contentUrlSplit.Count() < 2)
+                return string.Empty;
+
+            string uriPath = _backend.GetPath(string.Format("/_matrix/media/r0/download/{0}/{1}", contentUrlSplit[0], contentUrlSplit[1]), false);
+            return uriPath;
+        }
+
         public async void JoinedRooms()
         {
             var tuple = await _backend.Get("/_matrix/client/r0/joined_rooms", true);

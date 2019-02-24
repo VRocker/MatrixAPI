@@ -108,7 +108,7 @@ namespace libMatrix.Backends
             _accessToken = token;
         }
 
-        private string GetPath(string apiPath, bool auth)
+        public string GetPath(string apiPath, bool auth)
         {
             string path = _baseUrl + apiPath;
             if (auth)

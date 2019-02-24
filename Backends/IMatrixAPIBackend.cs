@@ -15,5 +15,6 @@ namespace libMatrix.Backends
         Task<Tuple<MatrixRequestError, string>> Put(string path, bool authenticate, string request);
 
         void SetAccessToken(string token);
+        string GetPath(string apiPath, bool auth);
     }
 }
