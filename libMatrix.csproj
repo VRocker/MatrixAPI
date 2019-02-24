@@ -126,6 +126,8 @@
     <Compile Include="Requests\Rooms\MatrixRoomInvite.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomJoin.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomSendTyping.cs" />
+    <Compile Include="Requests\Rooms\Message\MatrixRoomMessageBase.cs" />
+    <Compile Include="Requests\Rooms\Message\MatrixRoomMessageText.cs" />
     <Compile Include="Requests\Session\MatrixLogin.cs" />
     <Compile Include="Requests\Session\MatrixLoginPassword.cs" />
     <Compile Include="Requests\Session\MatrixRegister.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Responses\Events\Presence.cs" />
     <Compile Include="Responses\Events\Room\CanonicalAlias.cs" />
     <Compile Include="Responses\Events\Room\Create.cs" />
+    <Compile Include="Responses\Events\Room\GuestAccess.cs" />
     <Compile Include="Responses\Events\Room\JoinRules.cs" />
     <Compile Include="Responses\Events\Room\Member.cs" />
     <Compile Include="Responses\Events\Room\Message.cs" />

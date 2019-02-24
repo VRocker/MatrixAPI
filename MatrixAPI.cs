@@ -279,5 +279,25 @@ namespace libMatrix
             if (!err.IsOk)
                 throw new MatrixException(err.ToString());
         }
+
+        private async Task<bool> SendEventToRoom(string roomId, string eventType, string content)
+        {
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/rooms/{0}/send/{1}/{2}", Uri.EscapeDataString(roomId), eventType, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()), true, content);
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+                return true;
+
+            return false;
+        }
+        public async Task<bool> SendTextMessageToRoom(string roomId, string message)
+        {
+            Requests.Rooms.Message.MatrixRoomMessageText req = new Requests.Rooms.Message.MatrixRoomMessageText()
+            {
+                Body = message
+            };
+
+            return await SendEventToRoom(roomId, "m.room.message", Helpers.JsonHelper.Serialize(req));
+        }
     }
 }
