@@ -29,21 +29,8 @@ namespace libMatrix.Responses.Events.Room
     [DataContract]
     public class MessageImageContent : MessageContent
     {
-        [DataContract]
-        public class InfoClass
-        {
-            [DataMember(Name = "w")]
-            public int Width { get; set; }
-            [DataMember(Name = "h")]
-            public int Height { get; set; }
-            [DataMember(Name = "size")]
-            public int FileSize { get; set; }
-            [DataMember(Name = "mimetype")]
-            public string MimeType { get; set; }
-        }
-
         [DataMember(Name = "info")]
-        public InfoClass ImageInfo { get; set; }
+        public APITypes.MatrixContentThumbnailInfo ImageInfo { get; set; }
         [DataMember(Name = "url")]
         public string Url { get; set; }
     }
