@@ -34,4 +34,15 @@ namespace libMatrix.Responses.Events.Room
         [DataMember(Name = "url")]
         public string Url { get; set; }
     }
+
+    [DataContract]
+    public class MessageLocationContent : MessageContent
+    {
+        [DataMember(Name = "geo_uri")]
+        public string GeoUri { get; set; }
+        [DataMember(Name = "thumbnail_info")]
+        public APITypes.MatrixContentThumbnailInfo ThumbnailInfo { get; set; }
+        [DataMember(Name = "thumbnail_url")]
+        public string ThumbnailUrl { get; set; }
+    }
 }

@@ -128,6 +128,7 @@
     <Compile Include="Requests\Rooms\MatrixRoomJoin.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomSendTyping.cs" />
     <Compile Include="Requests\Rooms\Message\MatrixRoomMessageBase.cs" />
+    <Compile Include="Requests\Rooms\Message\MatrixRoomMessageLocation.cs" />
     <Compile Include="Requests\Rooms\Message\MatrixRoomMessageText.cs" />
     <Compile Include="Requests\Session\MatrixLogin.cs" />
     <Compile Include="Requests\Session\MatrixLoginPassword.cs" />

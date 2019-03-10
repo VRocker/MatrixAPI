@@ -107,6 +107,9 @@ namespace libMatrix.Helpers
                     case "m.image":
                         return item.ToObject<Responses.Events.Room.MessageImageContent>();
 
+                    case "m.location":
+                        return item.ToObject<Responses.Events.Room.MessageLocationContent>();
+
                     case "m.text":
                     case "m.notice":
                     case "m.emote":

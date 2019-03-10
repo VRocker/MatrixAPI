@@ -280,6 +280,37 @@ namespace libMatrix
                 throw new MatrixException(err.ToString());
         }
 
+        public async Task<bool> GetRoomState(string roomId, string eventType = null, string stateKey = null)
+        {
+            string url = string.Format("/_matrix/client/r0/rooms/{0}/state", roomId);
+            if (!string.IsNullOrEmpty(eventType))
+                url += "/" + eventType;
+            if (!string.IsNullOrEmpty(stateKey))
+                url += "/" + stateKey;
+
+            var tuple = await _backend.Get(url, true);
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                // Parse stuff
+                // Parsing will differ if there is no eventType specified
+
+                if (!string.IsNullOrEmpty(eventType))
+                {
+
+                }
+                else
+                {
+
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         private async Task<bool> SendEventToRoom(string roomId, string eventType, string content)
         {
             var tuple = await _backend.Put(string.Format("/_matrix/client/r0/rooms/{0}/send/{1}/{2}", Uri.EscapeDataString(roomId), eventType, DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()), true, content);
@@ -295,6 +326,21 @@ namespace libMatrix
             Requests.Rooms.Message.MatrixRoomMessageText req = new Requests.Rooms.Message.MatrixRoomMessageText()
             {
                 Body = message
+            };
+
+            return await SendEventToRoom(roomId, "m.room.message", Helpers.JsonHelper.Serialize(req));
+        }
+
+        public async Task<bool> SendLocationToRoom(string roomId, string description, double lat, double lon)
+        {
+            StringBuilder sb = new StringBuilder("geo:");
+            sb.Append(lat);
+            sb.Append(",");
+            sb.Append(lon);
+            Requests.Rooms.Message.MatrixRoomMessageLocation req = new Requests.Rooms.Message.MatrixRoomMessageLocation()
+            {
+                Description = description,
+                GeoUri = sb.ToString()
             };
 
             return await SendEventToRoom(roomId, "m.room.message", Helpers.JsonHelper.Serialize(req));
