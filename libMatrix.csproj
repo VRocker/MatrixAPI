@@ -106,7 +106,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="APITypes\MatrixContentThumbnailInfo.cs" />
+    <Compile Include="APITypes\MatrixContentImageInfo.cs" />
     <Compile Include="Backends\HttpBackend.cs" />
     <Compile Include="Backends\IMatrixAPIBackend.cs" />
     <Compile Include="Backends\MatrixErrorCode.cs" />
@@ -138,7 +138,9 @@
     <Compile Include="Requests\UserData\UserProfileSetAvatar.cs" />
     <Compile Include="Requests\UserData\UserProfileSetDisplayName.cs" />
     <Compile Include="Responses\Error.cs" />
+    <Compile Include="Responses\Events\Direct.cs" />
     <Compile Include="Responses\Events\Presence.cs" />
+    <Compile Include="Responses\Events\Room\Avatar.cs" />
     <Compile Include="Responses\Events\Room\CanonicalAlias.cs" />
     <Compile Include="Responses\Events\Room\Create.cs" />
     <Compile Include="Responses\Events\Room\GuestAccess.cs" />

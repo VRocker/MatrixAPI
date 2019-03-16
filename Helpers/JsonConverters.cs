@@ -29,6 +29,10 @@ namespace libMatrix.Helpers
                 {
                     switch (item["type"].Value<string>())
                     {
+                        case "m.direct":
+                            lst.Add(item.ToObject<Responses.Events.Direct>());
+                            break;
+
                         case "m.presence":
                             lst.Add(item.ToObject<Responses.Events.Presence>());
                             break;
