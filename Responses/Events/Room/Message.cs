@@ -30,7 +30,7 @@ namespace libMatrix.Responses.Events.Room
     public class MessageImageContent : MessageContent
     {
         [DataMember(Name = "info")]
-        public APITypes.MatrixContentThumbnailInfo ImageInfo { get; set; }
+        public APITypes.MatrixContentImageInfo ImageInfo { get; set; }
         [DataMember(Name = "url")]
         public string Url { get; set; }
     }
@@ -41,7 +41,7 @@ namespace libMatrix.Responses.Events.Room
         [DataMember(Name = "geo_uri")]
         public string GeoUri { get; set; }
         [DataMember(Name = "thumbnail_info")]
-        public APITypes.MatrixContentThumbnailInfo ThumbnailInfo { get; set; }
+        public APITypes.MatrixContentImageInfo ThumbnailInfo { get; set; }
         [DataMember(Name = "thumbnail_url")]
         public string ThumbnailUrl { get; set; }
     }

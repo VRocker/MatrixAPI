@@ -3,7 +3,7 @@
 namespace libMatrix.APITypes
 {
     [DataContract]
-    public class MatrixContentThumbnailInfo
+    public class MatrixContentImageInfo
     {
         [DataMember(Name = "w")]
         public int Width { get; set; }

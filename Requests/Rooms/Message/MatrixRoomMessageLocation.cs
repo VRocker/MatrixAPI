@@ -21,6 +21,6 @@ namespace libMatrix.Requests.Rooms.Message
         public string ThumbnailUrl { get; set; }
 
         [DataMember(Name = "thumbnail_info", IsRequired = false)]
-        public APITypes.MatrixContentThumbnailInfo ThumbnailInfo { get; set; }
+        public APITypes.MatrixContentImageInfo ThumbnailInfo { get; set; }
     }
 }
