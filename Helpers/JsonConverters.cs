@@ -65,6 +65,10 @@ namespace libMatrix.Helpers
                             lst.Add(item.ToObject<Responses.Events.Room.Name> ());
                             break;
 
+                        case "m.room.topic":
+                            lst.Add(item.ToObject<Responses.Events.Room.Topic>());
+                            break;
+
                         case "m.sticker":
                             lst.Add(item.ToObject<Responses.Events.Sticker>());
                             break;
