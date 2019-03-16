@@ -37,6 +37,10 @@ namespace libMatrix.Helpers
                             lst.Add(item.ToObject<Responses.Events.Typing>());
                             break;
 
+                        case "m.room.avatar":
+                            lst.Add(item.ToObject<Responses.Events.Room.Avatar>());
+                            break;
+
                         case "m.room.canonical_alias":
                             lst.Add(item.ToObject<Responses.Events.Room.CanonicalAlias>());
                             break;
