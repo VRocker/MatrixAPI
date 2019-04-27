@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace libMatrix.Backends
@@ -13,6 +11,8 @@ namespace libMatrix.Backends
         Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, string request, Dictionary<string, string> headers);
         Task<Tuple<MatrixRequestError, string>> Post(string path, bool authenticate, byte[] request, Dictionary<string, string> headers);
         Task<Tuple<MatrixRequestError, string>> Put(string path, bool authenticate, string request);
+
+        Task<Tuple<MatrixRequestError, string>> Delete(string path, bool authenticate);
 
         void SetAccessToken(string token);
         string GetPath(string apiPath, bool auth);

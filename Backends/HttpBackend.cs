@@ -103,6 +103,13 @@ namespace libMatrix.Backends
             return await RequestWrap(task);
         }
 
+        public async Task<Tuple<MatrixRequestError, string>> Delete(string path, bool authenticate)
+        {
+            string apiPath = GetPath(path, authenticate);
+            HttpResponseMessage task = await _client.DeleteAsync(apiPath);
+            return await RequestWrap(task);
+        }
+
         public void SetAccessToken(string token)
         {
             _accessToken = token;

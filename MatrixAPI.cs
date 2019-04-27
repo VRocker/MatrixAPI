@@ -304,6 +304,17 @@ namespace libMatrix
             return false;
         }
 
+        public async Task<bool> DeleteRoomAlias(string roomAlias)
+        {
+            var tuple = await _backend.Delete(string.Format("/_matrix/client/r0/directory/room/{0}", Uri.EscapeDataString(roomAlias)), true);
+            MatrixRequestError err = tuple.Item1;
+            if (err.IsOk)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<bool> LeaveRoom(string roomId)
         {
             var tuple = await _backend.Post(string.Format("/_matrix/client/r0/rooms/{0}/leave", Uri.EscapeDataString(roomId)), true, "");
