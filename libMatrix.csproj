@@ -129,6 +129,7 @@
     <Compile Include="Requests\Rooms\MatrixRoomInvite.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomJoin.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomSendTyping.cs" />
+    <Compile Include="Requests\Rooms\MatrixRoomAddAlias.cs" />
     <Compile Include="Requests\Rooms\Message\MatrixRoomMessageBase.cs" />
     <Compile Include="Requests\Rooms\Message\MatrixRoomMessageEmote.cs" />
     <Compile Include="Requests\Rooms\Message\MatrixRoomMessageImage.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Responses\MatrixEventsRoom.cs" />
     <Compile Include="Responses\MatrixSync.cs" />
     <Compile Include="Responses\Media\MediaUploadResponse.cs" />
+    <Compile Include="Responses\Rooms\CreateRoom.cs" />
     <Compile Include="Responses\Session\LoginResponse.cs" />
     <Compile Include="Responses\UserData\UserProfileResponse.cs" />
     <Compile Include="Responses\Versions.cs" />
@@ -170,9 +172,7 @@
       <Version>11.0.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Responses\Rooms\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Responses\Events\Room\Name.cs" />
   </ItemGroup>

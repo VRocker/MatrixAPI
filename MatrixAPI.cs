@@ -287,6 +287,22 @@ namespace libMatrix
             return false;
         }
 
+        public async Task<bool> AddRoomAlias(string roomId, string alias)
+        {
+            Requests.Rooms.MatrixRoomAddAlias roomAddAlias = new Requests.Rooms.MatrixRoomAddAlias
+            {
+                RoomID = roomId
+            };
+
+            var tuple = await _backend.Put(string.Format("/_matrix/client/r0/directory/room/{0}", Uri.EscapeDataString(alias)), true, Helpers.JsonHelper.Serialize(roomAddAlias));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public async Task<bool> LeaveRoom(string roomId)
         {
