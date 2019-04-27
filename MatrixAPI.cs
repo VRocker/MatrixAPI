@@ -272,7 +272,16 @@ namespace libMatrix
             string result = tuple.Item2;
             if (err.IsOk)
             {
-                ParseCreatedRoom(result);
+                try
+                {
+                    ParseCreatedRoom(result);
+                    return true;
+                }
+                catch (MatrixException)
+                {
+                    // Failed to create the room
+                    return false;
+                }
             }
 
             return false;
