@@ -111,6 +111,7 @@
     <Compile Include="Backends\IMatrixAPIBackend.cs" />
     <Compile Include="Backends\MatrixErrorCode.cs" />
     <Compile Include="Backends\MatrixRequestError.cs" />
+    <Compile Include="Events\AccountData.cs" />
     <Compile Include="Events\Error.cs" />
     <Compile Include="Events\LogInOut.cs" />
     <Compile Include="Events\Rooms.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="MatrixSyncThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\Presence\MatrixSetPresence.cs" />
+    <Compile Include="Requests\Rooms\MatrixRoomCreate.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomInvite.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomJoin.cs" />
     <Compile Include="Requests\Rooms\MatrixRoomSendTyping.cs" />

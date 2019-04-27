@@ -115,6 +115,15 @@ namespace libMatrix
                         }
                     }
 
+                    if (response.AccountData != null)
+                    {
+                        foreach (var evt in response.AccountData.Events)
+                        {
+                            Debug.WriteLine("AccountData Event: " + evt.Type);
+                            _events.FireAccountDataEvent(evt);
+                        }
+                    }
+
                     // Do stuff
                     IsConnected = true;
                 }
