@@ -254,6 +254,31 @@ namespace libMatrix
             return false;
         }
 
+        public async Task<bool> CreateRoom(string roomName, string roomTopic, bool isDirect = false)
+        {
+            if (string.IsNullOrEmpty(roomName))
+                return false;
+
+            Requests.Rooms.MatrixRoomCreate roomCreate = new Requests.Rooms.MatrixRoomCreate
+            {
+                Name = roomName,
+                IsDirect = isDirect
+            };
+            if (string.IsNullOrEmpty(roomTopic))
+                roomCreate.Topic = roomTopic;
+
+            var tuple = await _backend.Post("/_matrix/client/r0/createRoom", true, Helpers.JsonHelper.Serialize(roomCreate));
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                ParseCreatedRoom(result);
+            }
+
+            return false;
+        }
+
+
         public async Task<bool> LeaveRoom(string roomId)
         {
             var tuple = await _backend.Post(string.Format("/_matrix/client/r0/rooms/{0}/leave", Uri.EscapeDataString(roomId)), true, "");

@@ -160,5 +160,23 @@ namespace libMatrix
                 throw new MatrixException("Failed to parse JoinedRooms");
             }
         }
+
+        private void ParseCreatedRoom(string resp)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(resp)))
+                {
+                    var ser = new DataContractJsonSerializer(typeof(Responses.Rooms.CreateRoom));
+                    Responses.Rooms.CreateRoom response = (ser.ReadObject(stream) as Responses.Rooms.CreateRoom);
+
+                    Events.FireRoomCreateEvent(response.RoomID);
+                }
+            }
+            catch
+            {
+                throw new MatrixException("Failed to parse CreatedRoom");
+            }
+        }
     }
 }
