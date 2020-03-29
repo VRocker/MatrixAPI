@@ -13,9 +13,12 @@ namespace libMatrix
         IMatrixAPIBackend _backend = null;
         private Events _events = null;
 
+        private MatrixAppInfo _appInfo = null;
+
         public string UserID { get; private set; }
         public string DeviceID { get; private set; }
         public string HomeServer { get; private set; }
+        public string DeviceName { get; private set; } = "libMatrix";
 
         private string _syncToken = "";
         public int SyncTimeout = 10000;
@@ -23,6 +26,7 @@ namespace libMatrix
         public bool RunningInitialSync { get; private set; }
         public bool IsConnected { get; private set; }
         public Events Events { get => _events; set => _events = value; }
+        public MatrixAppInfo AppInfo { get => _appInfo; }
 
         public MatrixAPI(string Url, string token = "")
         {
@@ -31,6 +35,7 @@ namespace libMatrix
 
             _backend = new HttpBackend(Url);
             _events = new Events();
+            _appInfo = new MatrixAppInfo();
 
             _syncToken = token;
             if (string.IsNullOrEmpty(_syncToken))
@@ -43,6 +48,10 @@ namespace libMatrix
             //throw new NotImplementedException();
         }
 
+        public void SetDeviceName(string _deviceName)
+        {
+            DeviceName = _deviceName;
+        }
         public async Task ClientSync(bool connectionFailureTimeout = false, bool fullState = false)
         {
             string url = "/_matrix/client/r0/sync?timeout=" + SyncTimeout;

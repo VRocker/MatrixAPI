@@ -120,6 +120,7 @@
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="MatrixAPI.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="MatrixAppInfo.cs" />
     <Compile Include="MatrixAttributes.cs" />
     <Compile Include="MatrixParsers.cs" />
     <Compile Include="MatrixSyncThread.cs" />
