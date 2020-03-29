@@ -187,5 +187,28 @@ namespace libMatrix
                 throw new MatrixException("Failed to parse CreatedRoom");
             }
         }
+
+        private void ParseNotifications(string resp)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(resp)))
+                {
+                    var ser = new DataContractJsonSerializer(typeof(Responses.Pushers.MatrixNotifications));
+                    Responses.Pushers.MatrixNotifications response = (ser.ReadObject(stream) as Responses.Pushers.MatrixNotifications);
+
+                    Console.WriteLine("Notifications received.");
+
+                    foreach (var notification in response.Notifications)
+                    {
+                        Events.FireNotificationEvent(notification);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

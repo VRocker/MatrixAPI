@@ -459,5 +459,35 @@ namespace libMatrix
 
             return false;
         }
+
+        public async Task<bool> GetNotifications(string from = "", int limit = -1, string only = "")
+        {
+            StringBuilder url = new StringBuilder("/_matrix/client/r0/notifications");
+
+            Dictionary<string, string> urlParams = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(from))
+                urlParams.Add("from", from);
+            if (limit != -1)
+                urlParams.Add("limit", limit.ToString());
+            if (!string.IsNullOrEmpty(only))
+                urlParams.Add("only", only);
+
+            if (urlParams.Count > 0)
+            {
+                var enc = new System.Net.Http.FormUrlEncodedContent(urlParams);
+                url.Append("?" + enc.ReadAsStringAsync().Result);
+            }
+
+            var tuple = await _backend.Get(url.ToString(), true);
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                // Parse the response
+                ParseNotifications(result);
+                return true;
+            }
+            return false;
+        }
     }
 }
