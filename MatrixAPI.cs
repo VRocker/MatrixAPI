@@ -428,5 +428,36 @@ namespace libMatrix
 
             return await SendEventToRoom(roomId, "m.room.message", Helpers.JsonHelper.Serialize(req));
         }
+
+        public async Task<bool> SetPusher(string pushUrl, string pushKey)
+        {
+            Requests.Pushers.MatrixSetPusher req = new Requests.Pushers.MatrixSetPusher()
+            {
+                PushKey = pushKey,
+                Kind = "http",
+                AppID = AppInfo.ApplicationID,
+                AppDisplayName = AppInfo.ApplicationName,
+                DeviceDisplayName = DeviceName,
+                Language = "en",
+                Append = false
+            };
+            req.Data = new Requests.Pushers.MatrixPusherData()
+            {
+                Url = pushUrl,
+                Format = "event_id_only"
+            };
+
+            var jsonData = Helpers.JsonHelper.Serialize(req);
+
+            var tuple = await _backend.Post("/_matrix/client/r0/pushers/set", true, jsonData);
+            MatrixRequestError err = tuple.Item1;
+            string result = tuple.Item2;
+            if (err.IsOk)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
