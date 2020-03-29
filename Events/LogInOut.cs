@@ -6,7 +6,9 @@ namespace libMatrix
     {
         public class LoginEventArgs : EventArgs
         {
-
+            public string AccessToken;
+            public string DeviceID;
+            public string UserID;
         }
 
         public delegate void LoginFailDelegate(object sender, ErrorEventArgs e);
@@ -18,7 +20,11 @@ namespace libMatrix
         public event LogoutDelegate LogoutEvent;
 
         internal void FireLoginFailEvent(string message) => LoginFailEvent?.Invoke(this, new ErrorEventArgs() { Message = message });
-        internal void FireLoginEvent() => LoginEvent?.Invoke(this, new LoginEventArgs() { });
+        internal void FireLoginEvent(Responses.Session.LoginResponse resp) => LoginEvent?.Invoke(this, new LoginEventArgs() {
+            AccessToken = resp.AccessToken,
+            DeviceID = resp.DeviceID,
+            UserID = resp.UserID
+        });
         internal void FireLogoutEvent() => LogoutEvent?.Invoke(this, new LoginEventArgs() { });
     }
 }

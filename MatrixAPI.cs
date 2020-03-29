@@ -50,10 +50,21 @@ namespace libMatrix
             //throw new NotImplementedException();
         }
 
+        public void SetUserID(string _userId)
+        {
+            UserID = _userId;
+        }
+
+        public void SetDeviceID(string _deviceId)
+        {
+            DeviceID = _deviceId;
+        }
+
         public void SetDeviceName(string _deviceName)
         {
             DeviceName = _deviceName;
         }
+
         public async Task ClientSync(bool connectionFailureTimeout = false, bool fullState = false)
         {
             string url = "/_matrix/client/r0/sync?timeout=" + SyncTimeout;

@@ -44,7 +44,7 @@ namespace libMatrix
 
                     this._backend.SetAccessToken(response.AccessToken);
 
-                    _events.FireLoginEvent();
+                    _events.FireLoginEvent(response);
                 }
             }
             catch
