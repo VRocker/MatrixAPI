@@ -20,7 +20,7 @@ namespace libMatrix
         public string HomeServer { get; private set; }
         public string DeviceName { get; private set; } = "libMatrix";
 
-        private string _syncToken = "";
+        public string SyncToken { get; private set; } = "";
         public int SyncTimeout = 10000;
 
         public bool RunningInitialSync { get; private set; }
@@ -28,7 +28,7 @@ namespace libMatrix
         public Events Events { get => _events; set => _events = value; }
         public MatrixAppInfo AppInfo { get => _appInfo; }
 
-        public MatrixAPI(string Url, string token = "")
+        public MatrixAPI(string Url, string accessToken = "", string syncToken = "")
         {
             if (!Uri.IsWellFormedUriString(Url, UriKind.Absolute))
                 throw new MatrixException("URL is not valid.");
@@ -37,10 +37,12 @@ namespace libMatrix
             _events = new Events();
             _appInfo = new MatrixAppInfo();
 
-            _syncToken = token;
-            if (string.IsNullOrEmpty(_syncToken))
-                RunningInitialSync = true;
+            if (!string.IsNullOrEmpty(accessToken))
+                _backend.SetAccessToken(accessToken);
 
+            SyncToken = syncToken;
+            if (string.IsNullOrEmpty(SyncToken))
+                RunningInitialSync = true;
         }
 
         private void FlushMessageQueue()
@@ -55,8 +57,8 @@ namespace libMatrix
         public async Task ClientSync(bool connectionFailureTimeout = false, bool fullState = false)
         {
             string url = "/_matrix/client/r0/sync?timeout=" + SyncTimeout;
-            if (!string.IsNullOrEmpty(_syncToken))
-                url += "&since=" + _syncToken;
+            if (!string.IsNullOrEmpty(SyncToken))
+                url += "&since=" + SyncToken;
             if (fullState)
                 url += "&full_state=true";
 

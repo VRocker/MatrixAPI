@@ -86,7 +86,7 @@ namespace libMatrix
 
                     Responses.MatrixSync response = Newtonsoft.Json.JsonConvert.DeserializeObject<Responses.MatrixSync>(resp);
 
-                    _syncToken = response.NextBatch;
+                    SyncToken = response.NextBatch;
 
                     foreach (var room in response.Rooms.Join)
                     {
