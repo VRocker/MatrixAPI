@@ -17,8 +17,8 @@ namespace libMatrix
 
         public string UserID { get; private set; }
         public string DeviceID { get; private set; }
-        public string HomeServer { get; private set; }
         public string DeviceName { get; private set; } = "libMatrix";
+        //public string HomeServer { get; private set; }
 
         public string SyncToken { get; private set; } = "";
         public int SyncTimeout = 10000;

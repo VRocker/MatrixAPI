@@ -40,7 +40,7 @@ namespace libMatrix
 
                     this.UserID = response.UserID;
                     this.DeviceID = response.DeviceID;
-                    this.HomeServer = response.HomeServer;
+                    //this.HomeServer = response.HomeServer;
 
                     this._backend.SetAccessToken(response.AccessToken);
 
